@@ -32,13 +32,23 @@ if uploaded:
 }
     inputs = {}
 
-    st.write("Isi input manual:")
-    
-for col in EXPECTED_FEATURES:
-    if dtype_map[col] in [np.int64, np.float64]:
-        inputs[col] = st.number_input(col)
-    else:
-        inputs[col] = st.selectbox(col, options=["Male", "Female"])
+    import streamlit as st
+
+st.title("Isi input manual:")
+
+gender = st.text_input("Gender (Male/Female)")
+age = st.number_input("Age", min_value=0, step=1, format="%d")
+height = st.number_input("Height (in meters)", step=0.01, format="%.2f")
+weight = st.number_input("Weight (in kg)", step=0.01, format="%.2f")
+
+# Tampilkan hasil input
+st.subheader("Input untuk prediksi:")
+st.json({
+    "Gender": gender,
+    "Age": age,
+    "Height": height,
+    "Weight": weight
+})
 
     # Buat DataFrame dari input
     X = pd.DataFrame([inputs])
