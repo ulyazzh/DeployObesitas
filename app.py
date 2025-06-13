@@ -19,14 +19,18 @@ if uploaded:
     st.dataframe(df.head())
 
     st.write("Isi input manual:")
-    inputs = {}
-    for col in df.columns:
-        if df[col].dtype in [np.int64, np.float64]:
-            default = float(df[col].mean())
-            inputs[col] = st.number_input(col, value=default)
-        else:
-            uniques = df[col].unique().tolist()
-            inputs[col] = st.selectbox(col, uniques)
+   # Tentukan fitur yang digunakan saat training
+EXPECTED_FEATURES = ['Gender', 'Age', 'Height', 'Weight']
+
+inputs = {}
+
+for col in EXPECTED_FEATURES:
+    if df[col].dtype in [np.int64, np.float64]:
+        default = float(df[col].mean())
+        inputs[col] = st.number_input(col, value=default)
+    else:
+        uniques = df[col].unique().tolist()
+        inputs[col] = st.selectbox(col, uniques)
 
     # Buat DataFrame dari input
     X = pd.DataFrame([inputs])
