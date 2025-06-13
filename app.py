@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -7,7 +6,7 @@ import joblib
 st.set_page_config(page_title="Prediksi Obesitas", layout="centered")
 st.title("Prediksi Tingkat Obesitas")
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data  # Ganti dengan st.cache_data sesuai warning
 def load_model():
     return joblib.load("model.pkl")
 
@@ -29,7 +28,14 @@ if uploaded:
             uniques = df[col].unique().tolist()
             inputs[col] = st.selectbox(col, uniques)
 
+    # Buat DataFrame dari input
     X = pd.DataFrame([inputs])
+
+    # Encoding fitur kategorikal
+    categorical_cols = X.select_dtypes(include=['object']).columns
+    for col in categorical_cols:
+        X[col] = X[col].astype('category').cat.codes  # Ubah ke numerik (0,1,...)
+
     st.write("Input untuk prediksi:")
     st.json(inputs)
 
