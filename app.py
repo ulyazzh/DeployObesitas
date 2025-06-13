@@ -14,9 +14,9 @@ model = load_model()
 
 uploaded = st.file_uploader("Upload file CSV data pasien", type=["csv"])
 if uploaded:
-    df = pd.read_csv(uploaded)
+    st = pd.read_csv(uploaded)
     st.write("Data preview:")
-    st.dataframe(df.head())
+    st.dataframe(st.head())
 
     st.write("Isi input manual:")
    # Tentukan fitur yang digunakan saat training
@@ -25,11 +25,11 @@ EXPECTED_FEATURES = ['Gender', 'Age', 'Height', 'Weight']
 inputs = {}
 
 for col in EXPECTED_FEATURES:
-    if df[col].dtype in [np.int64, np.float64]:
-        default = float(df[col].mean())
+    if st[col].dtype in [np.int64, np.float64]:
+        default = float(st[col].mean())
         inputs[col] = st.number_input(col, value=default)
     else:
-        uniques = df[col].unique().tolist()
+        uniques = st[col].unique().tolist()
         inputs[col] = st.selectbox(col, uniques)
 
     # Buat DataFrame dari input
