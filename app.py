@@ -24,17 +24,21 @@ if uploaded:
 
     # Kolom yang digunakan saat training
     EXPECTED_FEATURES = ['Gender', 'Age', 'Height', 'Weight']
-
+    dtype_map = {
+    "Gender": "object",
+    "Age": np.float64,
+    "Height": np.float64,
+    "Weight": np.float64
+}
     inputs = {}
 
     st.write("Isi input manual:")
-    for col in EXPECTED_FEATURES:
-        if df[col].dtype in [np.int64, np.float64]:
-            default = float(df[col].mean())
-            inputs[col] = st.number_input(col, value=default)
-        else:
-            uniques = df[col].unique().tolist()
-            inputs[col] = st.selectbox(col, uniques)
+    
+for col in EXPECTED_FEATURES:
+    if dtype_map[col] in [np.int64, np.float64]:
+        inputs[col] = st.number_input(col)
+    else:
+        inputs[col] = st.selectbox(col, options=["Male", "Female"])
 
     # Buat DataFrame dari input
     X = pd.DataFrame([inputs])
