@@ -3,42 +3,46 @@ import pandas as pd
 import numpy as np
 import joblib
 
+# Set config halaman
 st.set_page_config(page_title="Prediksi Obesitas", layout="centered")
 st.title("Prediksi Tingkat Obesitas")
 
-@st.cache_data  # Ganti dengan st.cache_data sesuai warning
+# Load model
+@st.cache_data
 def load_model():
     return joblib.load("model.pkl")
 
 model = load_model()
 
+# Upload file CSV
 uploaded = st.file_uploader("Upload file CSV data pasien", type=["csv"])
 if uploaded:
-    st = pd.read_csv(uploaded)
+    df = pd.read_csv(uploaded)
+
     st.write("Data preview:")
-    st.dataframe(st.head())
+    st.dataframe(df.head())
+
+    # Kolom yang digunakan saat training
+    EXPECTED_FEATURES = ['Gender', 'Age', 'Height', 'Weight']
+
+    inputs = {}
 
     st.write("Isi input manual:")
-   # Tentukan fitur yang digunakan saat training
-EXPECTED_FEATURES = ['Gender', 'Age', 'Height', 'Weight']
-
-inputs = {}
-
-for col in EXPECTED_FEATURES:
-    if st[col].dtype in [np.int64, np.float64]:
-        default = float(st[col].mean())
-        inputs[col] = st.number_input(col, value=default)
-    else:
-        uniques = st[col].unique().tolist()
-        inputs[col] = st.selectbox(col, uniques)
+    for col in EXPECTED_FEATURES:
+        if df[col].dtype in [np.int64, np.float64]:
+            default = float(df[col].mean())
+            inputs[col] = st.number_input(col, value=default)
+        else:
+            uniques = df[col].unique().tolist()
+            inputs[col] = st.selectbox(col, uniques)
 
     # Buat DataFrame dari input
     X = pd.DataFrame([inputs])
 
-    # Encoding fitur kategorikal
+    # Encode fitur kategorikal
     categorical_cols = X.select_dtypes(include=['object']).columns
     for col in categorical_cols:
-        X[col] = X[col].astype('category').cat.codes  # Ubah ke numerik (0,1,...)
+        X[col] = X[col].astype('category').cat.codes
 
     st.write("Input untuk prediksi:")
     st.json(inputs)
