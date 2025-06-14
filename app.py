@@ -61,68 +61,68 @@ if uploaded:
     st.subheader("Isi input manual:")
 
     # Age
-    age = st.number_input("Age", min_value=0, step=1, format="%d")
-    inputs["Age"] = age
+    Age = st.number_input("Age", min_value=0, step=1, format="%d")
+    inputs["Age"] = Age
     
     # Gender
-    gender = st.selectbox("Gender (Male/Female)", ["Male", "Female"])
-    inputs["Gender"] = gender
+    Gender = st.selectbox("Gender (Male/Female)", ["Male", "Female"])
+    inputs["Gender"] = Gender
 
     # Height
-    height = st.number_input("Height (in meters)", min_value=0.0, step=0.01, format="%.2f")
-    inputs["Height"] = height
+    Height = st.number_input("Height (in meters)", min_value=0.0, step=0.01, format="%.2f")
+    inputs["Height"] = Height
 
     # Weight
-    weight = st.number_input("Weight (in kg)", min_value=0.0, step=0.01, format="%.2f")
-    inputs["Weight"] = weight
+    Weight = st.number_input("Weight (in kg)", min_value=0.0, step=0.01, format="%.2f")
+    inputs["Weight"] = Weight
 
     # CALC
-    calc = st.selectbox("CALC (Sometimes/No)", ["Sometimes", "no"])
-    inputs["CALC"] = calc
+    CALC = st.selectbox("CALC (Sometimes/No)", ["Sometimes", "no"])
+    inputs["CALC"] = CALC
 
     # FAVC
-    favc = st.selectbox("FAVC (Yes/No)", ["yes", "no"])
-    inputs["FAVC"] = favc
+    FAVC = st.selectbox("FAVC (Yes/No)", ["yes", "no"])
+    inputs["FAVC"] = FAVC
 
     # FCVC
-    fcvc = st.number_input("FCVC (Frequency of consuming vegetables)", min_value=0, step=1, format="%d")
-    inputs["FCVC"] = fcvc
+    FCVC = st.number_input("FCVC (Frequency of consuming vegetables)", min_value=0, step=1, format="%d")
+    inputs["FCVC"] = FCVC
 
     # NCP
-    ncp = st.number_input("NCP (Number of main meals)", min_value=0.0, step=0.1, format="%.1f")
-    inputs["NCP"] = ncp
+    NCP = st.number_input("NCP (Number of main meals)", min_value=0.0, step=0.1, format="%.1f")
+    inputs["NCP"] = NCP
 
     # SCC
-    scc = st.selectbox("SCC (Consumption of food between meals)", ["Sometimes", "no"])
-    inputs["SCC"] = scc
+    SCC = st.selectbox("SCC (Consumption of food between meals)", ["Sometimes", "no"])
+    inputs["SCC"] = SCC
 
     # SMOKE
-    smoke = st.selectbox("SMOKE (Smoking habit)", ["yes", "no"])
-    inputs["SMOKE"] = smoke
+    SMOKE = st.selectbox("SMOKE (Smoking habit)", ["yes", "no"])
+    inputs["SMOKE"] = SMOKE
 
     # CH2O
-    ch2o = st.number_input("CH2O (Daily consumption of water)", min_value=0.0, step=0.1, format="%.1f")
-    inputs["CH2O"] = ch2o
+    CH2O = st.number_input("CH2O (Daily consumption of water)", min_value=0.0, step=0.1, format="%.1f")
+    inputs["CH2O"] = CH2O
 
     # family_history_with_overweight
-    family_history = st.selectbox("Family History with Overweight (Yes/No)", ["yes", "no"])
-    inputs["family_history_with_overweight"] = family_history
+    family_history_with_overweight = st.selectbox("Family History with Overweight (Yes/No)", ["yes", "no"])
+    inputs["family_history_with_overweight"] = family_history_with_overweight
 
     # FAF
-    faf = st.number_input("FAF (Physical Activity Frequency)", min_value=0.0, step=0.1, format="%.1f")
-    inputs["FAF"] = faf
+    FAF = st.number_input("FAF (Physical Activity Frequency)", min_value=0.0, step=0.1, format="%.1f")
+    inputs["FAF"] = FAF
 
     # TUE
-    tue = st.number_input("TUE (Time Using Technology for Entertainment)", min_value=0, step=1, format="%d")
-    inputs["TUE"] = tue
+    TUE = st.number_input("TUE (Time Using Technology for Entertainment)", min_value=0, step=1, format="%d")
+    inputs["TUE"] = TUE
 
     # CAEC
-    caec = st.selectbox("CAEC (Consumption of alcohol)", ["Sometimes", "no"])
-    inputs["CAEC"] = caec
+    CAEC = st.selectbox("CAEC (Consumption of alcohol)", ["Sometimes", "no"])
+    inputs["CAEC"] = CAEC
 
     # MTRANS
-    mtrans = st.selectbox("MTRANS (Mode of Transportation)", ["Automobile", "Motorbike", "Public_Transportation", "Walking"])
-    inputs["MTRANS"] = mtrans
+    MTRANS = st.selectbox("MTRANS (Mode of Transportation)", ["Automobile", "Motorbike", "Public_Transportation", "Walking"])
+    inputs["MTRANS"] = MTRANS
 
     # Buat DataFrame dari input
     X = pd.DataFrame([inputs])
