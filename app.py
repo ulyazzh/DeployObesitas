@@ -12,12 +12,6 @@ st.title("Prediksi Tingkat Obesitas")
 def load_model():
     return joblib.load("model.pkl")
 
-# Muat urutan fitur
-feature_order = joblib.load("feature_order.pkl")
-
-# Pastikan urutan fitur sama
-X = pd.DataFrame([inputs], columns=feature_order)
-
 model = load_model()
 
 # Upload file CSV
@@ -28,17 +22,15 @@ if uploaded:
     st.write("Data preview:")
     st.dataframe(df.head())
 
-
-    
     # Kolom yang digunakan saat training
     EXPECTED_FEATURES = [
-        'Age', 'Gender', 'Height', 'Weight', 'CALC', 'FAVC', 'FCVC', 'NCP', 'SCC',
+        'Gender', 'Age', 'Height', 'Weight', 'CALC', 'FAVC', 'FCVC', 'NCP', 'SCC',
         'SMOKE', 'CH2O', 'family_history_with_overweight', 'FAF', 'TUE', 'CAEC', 'MTRANS'
     ]
 
     dtype_map = {
-        "Age": np.float64,
         "Gender": "object",
+        "Age": np.float64,
         "Height": np.float64,
         "Weight": np.float64,
         "CALC": "object",
@@ -60,13 +52,13 @@ if uploaded:
     # Isi input manual
     st.subheader("Isi input manual:")
 
-    # Age
-    age = st.number_input("Age", min_value=0, step=1, format="%d")
-    inputs["Age"] = age
-    
     # Gender
     gender = st.selectbox("Gender (Male/Female)", ["Male", "Female"])
     inputs["Gender"] = gender
+
+    # Age
+    age = st.number_input("Age", min_value=0, step=1, format="%d")
+    inputs["Age"] = age
 
     # Height
     height = st.number_input("Height (in meters)", min_value=0.0, step=0.01, format="%.2f")
@@ -137,7 +129,7 @@ if uploaded:
 
     if st.button("Prediksi"):
         yhat = model.predict(X)[0]
-        st.success(f"Prediksi obesitas: *{yhat}*")
+        st.success(f"Prediksi obesitas: **{yhat}**")
         if hasattr(model, "predict_proba"):
             probs = model.predict_proba(X)[0]
             st.write("Probabilitas per kelas:")
