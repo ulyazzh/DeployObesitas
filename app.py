@@ -24,13 +24,13 @@ if uploaded:
 
     # Kolom yang digunakan saat training
     EXPECTED_FEATURES = [
-        'Gender', 'Age', 'Height', 'Weight', 'CALC', 'FAVC', 'FCVC', 'NCP', 'SCC',
+        'Age', 'Gender', 'Height', 'Weight', 'CALC', 'FAVC', 'FCVC', 'NCP', 'SCC',
         'SMOKE', 'CH2O', 'family_history_with_overweight', 'FAF', 'TUE', 'CAEC', 'MTRANS'
     ]
 
     dtype_map = {
-        "Gender": "object",
         "Age": np.float64,
+        "Gender": "object",
         "Height": np.float64,
         "Weight": np.float64,
         "CALC": "object",
@@ -52,13 +52,13 @@ if uploaded:
     # Isi input manual
     st.subheader("Isi input manual:")
 
-    # Gender
-    gender = st.selectbox("Gender (Male/Female)", ["Male", "Female"])
-    inputs["Gender"] = gender
-
     # Age
     age = st.number_input("Age", min_value=0, step=1, format="%d")
     inputs["Age"] = age
+    
+    # Gender
+    gender = st.selectbox("Gender (Male/Female)", ["Male", "Female"])
+    inputs["Gender"] = gender
 
     # Height
     height = st.number_input("Height (in meters)", min_value=0.0, step=0.01, format="%.2f")
