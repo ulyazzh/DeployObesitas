@@ -12,6 +12,12 @@ st.title("Prediksi Tingkat Obesitas")
 def load_model():
     return joblib.load("model.pkl")
 
+# Muat urutan fitur
+feature_order = joblib.load("feature_order.pkl")
+
+# Pastikan urutan fitur sama
+X = pd.DataFrame([inputs], columns=feature_order)
+
 model = load_model()
 
 # Upload file CSV
@@ -22,6 +28,8 @@ if uploaded:
     st.write("Data preview:")
     st.dataframe(df.head())
 
+
+    
     # Kolom yang digunakan saat training
     EXPECTED_FEATURES = [
         'Age', 'Gender', 'Height', 'Weight', 'CALC', 'FAVC', 'FCVC', 'NCP', 'SCC',
