@@ -50,8 +50,8 @@ st.json({
     "Weight": weight
 })
 
-    # Buat DataFrame dari input
-    X = pd.DataFrame([inputs])
+# Buat DataFrame dari input
+X = pd.DataFrame([inputs])
 
     # Encode fitur kategorikal
     categorical_cols = X.select_dtypes(include=['object']).columns
