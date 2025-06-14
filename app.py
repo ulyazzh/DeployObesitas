@@ -23,59 +23,114 @@ if uploaded:
     st.dataframe(df.head())
 
     # Kolom yang digunakan saat training
-    EXPECTED_FEATURES = ['Gender', 'Age', 'Height', 'Weight', 'CALC']
+    EXPECTED_FEATURES = [
+        'Gender', 'Age', 'Height', 'Weight', 'CALC', 'FAVC', 'FCVC', 'NCP', 'SCC',
+        'SMOKE', 'CH2O', 'family_history_with_overweight', 'FAF', 'TUE', 'CAEC', 'MTRANS'
+    ]
+
     dtype_map = {
-    "Gender": "object",
-    "Age": np.float64,
-    "Height": np.float64,
-    "Weight": np.float64,
-    "CALC": "object"
-}
+        "Gender": "object",
+        "Age": np.float64,
+        "Height": np.float64,
+        "Weight": np.float64,
+        "CALC": "object",
+        "FAVC": "object",
+        "FCVC": np.int64,
+        "NCP": np.float64,
+        "SCC": "object",
+        "SMOKE": "object",
+        "CH2O": np.float64,
+        "family_history_with_overweight": "object",
+        "FAF": np.float64,
+        "TUE": np.int64,
+        "CAEC": "object",
+        "MTRANS": "object"
+    }
+
     inputs = {}
 
-    import streamlit as st
+    # Isi input manual
+    st.subheader("Isi input manual:")
 
-st.title("Isi input manual:")
+    # Gender
+    gender = st.selectbox("Gender (Male/Female)", ["Male", "Female"])
+    inputs["Gender"] = gender
 
-gender = st.text_input("Gender (Male/Female)")
-age = st.number_input("Age", min_value=0, step=1, format="%d")
-height = st.number_input("Height (in meters)", step=0.01, format="%.2f")
-weight = st.number_input("Weight (in kg)", step=0.01, format="%.2f")
-calc = st.selectbox("CALC (Sometimes/No)", ["Sometimes", "no"])
+    # Age
+    age = st.number_input("Age", min_value=0, step=1, format="%d")
+    inputs["Age"] = age
 
-# Tampilkan hasil input
-st.subheader("Input untuk prediksi:")
-st.json({
-    "Gender": gender,
-    "Age": age,
-    "Height": height,
-    "Weight": weight,
-    "calc": calc
-})
+    # Height
+    height = st.number_input("Height (in meters)", min_value=0.0, step=0.01, format="%.2f")
+    inputs["Height"] = height
 
-inputs = {
-    "Gender": gender,
-    "Age": age,
-    "Height": height,
-    "Weight": weight
-    "calc": calc
-}
+    # Weight
+    weight = st.number_input("Weight (in kg)", min_value=0.0, step=0.01, format="%.2f")
+    inputs["Weight"] = weight
 
-# Buat DataFrame dari input
-X = pd.DataFrame([inputs])
+    # CALC
+    calc = st.selectbox("CALC (Sometimes/No)", ["Sometimes", "no"])
+    inputs["CALC"] = calc
 
-# Encode fitur kategorikal
-categorical_cols = X.select_dtypes(include=['object']).columns
-for col in categorical_cols:
-    X[col] = X[col].astype('category').cat.codes
+    # FAVC
+    favc = st.selectbox("FAVC (Yes/No)", ["yes", "no"])
+    inputs["FAVC"] = favc
 
-st.write("Input untuk prediksi:")
-st.json(inputs)
+    # FCVC
+    fcvc = st.number_input("FCVC (Frequency of consuming vegetables)", min_value=0, step=1, format="%d")
+    inputs["FCVC"] = fcvc
 
-if st.button("Prediksi"):
-    yhat = model.predict(X)[0]
-    st.success(f"Prediksi obesitas: **{yhat}**")
-    if hasattr(model, "predict_proba"):
-        probs = model.predict_proba(X)[0]
-        st.write("Probabilitas per kelas:")
-        st.json(dict(zip(model.classes_, [float(p) for p in probs])))
+    # NCP
+    ncp = st.number_input("NCP (Number of main meals)", min_value=0.0, step=0.1, format="%.1f")
+    inputs["NCP"] = ncp
+
+    # SCC
+    scc = st.selectbox("SCC (Consumption of food between meals)", ["Sometimes", "no"])
+    inputs["SCC"] = scc
+
+    # SMOKE
+    smoke = st.selectbox("SMOKE (Smoking habit)", ["yes", "no"])
+    inputs["SMOKE"] = smoke
+
+    # CH2O
+    ch2o = st.number_input("CH2O (Daily consumption of water)", min_value=0.0, step=0.1, format="%.1f")
+    inputs["CH2O"] = ch2o
+
+    # family_history_with_overweight
+    family_history = st.selectbox("Family History with Overweight (Yes/No)", ["yes", "no"])
+    inputs["family_history_with_overweight"] = family_history
+
+    # FAF
+    faf = st.number_input("FAF (Physical Activity Frequency)", min_value=0.0, step=0.1, format="%.1f")
+    inputs["FAF"] = faf
+
+    # TUE
+    tue = st.number_input("TUE (Time Using Technology for Entertainment)", min_value=0, step=1, format="%d")
+    inputs["TUE"] = tue
+
+    # CAEC
+    caec = st.selectbox("CAEC (Consumption of alcohol)", ["Sometimes", "no"])
+    inputs["CAEC"] = caec
+
+    # MTRANS
+    mtrans = st.selectbox("MTRANS (Mode of Transportation)", ["Automobile", "Motorbike", "Public_Transportation", "Walking"])
+    inputs["MTRANS"] = mtrans
+
+    # Buat DataFrame dari input
+    X = pd.DataFrame([inputs])
+
+    # Encode fitur kategorikal
+    categorical_cols = X.select_dtypes(include=['object']).columns
+    for col in categorical_cols:
+        X[col] = X[col].astype('category').cat.codes
+
+    st.subheader("Input untuk prediksi:")
+    st.json(inputs)
+
+    if st.button("Prediksi"):
+        yhat = model.predict(X)[0]
+        st.success(f"Prediksi obesitas: **{yhat}**")
+        if hasattr(model, "predict_proba"):
+            probs = model.predict_proba(X)[0]
+            st.write("Probabilitas per kelas:")
+            st.json(dict(zip(model.classes_, [float(p) for p in probs])))
