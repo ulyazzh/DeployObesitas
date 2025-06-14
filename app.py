@@ -50,6 +50,13 @@ st.json({
     "Weight": weight
 })
 
+inputs = {
+    "Gender": gender,
+    "Age": age,
+    "Height": height,
+    "Weight": weight
+}
+
 # Buat DataFrame dari input
 X = pd.DataFrame([inputs])
 
