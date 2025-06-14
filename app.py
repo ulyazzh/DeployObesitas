@@ -23,12 +23,13 @@ if uploaded:
     st.dataframe(df.head())
 
     # Kolom yang digunakan saat training
-    EXPECTED_FEATURES = ['Gender', 'Age', 'Height', 'Weight']
+    EXPECTED_FEATURES = ['Gender', 'Age', 'Height', 'Weight', 'CALC']
     dtype_map = {
     "Gender": "object",
     "Age": np.float64,
     "Height": np.float64,
-    "Weight": np.float64
+    "Weight": np.float64,
+    "CALC": "object"
 }
     inputs = {}
 
@@ -40,6 +41,7 @@ gender = st.text_input("Gender (Male/Female)")
 age = st.number_input("Age", min_value=0, step=1, format="%d")
 height = st.number_input("Height (in meters)", step=0.01, format="%.2f")
 weight = st.number_input("Weight (in kg)", step=0.01, format="%.2f")
+calc = st.selectbox("CALC (Sometimes/No)", ["Sometimes", "no"])
 
 # Tampilkan hasil input
 st.subheader("Input untuk prediksi:")
@@ -47,7 +49,8 @@ st.json({
     "Gender": gender,
     "Age": age,
     "Height": height,
-    "Weight": weight
+    "Weight": weight,
+    "calc": calc
 })
 
 inputs = {
@@ -55,6 +58,7 @@ inputs = {
     "Age": age,
     "Height": height,
     "Weight": weight
+    "calc": calc
 }
 
 # Buat DataFrame dari input
