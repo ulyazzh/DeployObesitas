@@ -96,7 +96,7 @@ st.markdown("---")
 st.markdown("### \U0001F50E Ringkasan Input")
 st.json(inputs)
 
-if st.button("\U0001F52E Prediksi Obesitas"):
+if st.button("Prediksi Obesitas"):
     yhat = model.predict(X)[0]
     
     # Mapping hasil prediksi ke nama kelas
@@ -117,13 +117,24 @@ if st.button("\U0001F52E Prediksi Obesitas"):
         'Obesity_Type_III': "Anda mengalami Obesitas Tipe III"
     }
 
-    result_text = prediction_description.get(predicted_class, f"Kelas tidak dikenali: {predicted_class}")
+    result_text = prediction_description.get(predicted_class, f"Kemungkinan Diabetes: {predicted_class}")
 
     st.markdown("### 🧾 Hasil Prediksi")
-    st.success(f"**{result_text}**")
+    st.success(f"{result_text}")
 
-    # Jika model support probabilitas
-    if hasattr(model, "predict_proba"):
-        probs = model.predict_proba(X)[0]
-        st.markdown("**Probabilitas Kelas:**")
-        st.json(dict(zip(class_names, [float(p) for p in probs])))
+    data = {
+        "Hasil": [0, 1, 2, 3, 4, 5, 6],
+        "Keterangan": [
+            "Berat badan anda kurang",
+            "Berat badan anda normal",
+            "Kelebihan berat badan level I",
+            "Kelebihan berat badan level II",
+            "Obesitas Tipe I",
+            "Obesitas Tipe II",
+            "Obesitas Tipe III"
+        ]
+    }
+    
+    df = pd.DataFrame(data)
+    
+    st.table(df)
